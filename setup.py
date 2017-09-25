@@ -42,7 +42,7 @@ setup(
         'Topic :: Utilities',
     ],
     keywords=[ 'remote', 'data', 'pytest', 'py.test' ],
-    install_requires=[ 'pytest>=2.8.0' ],
+    install_requires=[ 'six', 'pytest>=2.8.0' ],
     python_requires='>=2.7',
     entry_points={
         'pytest11': [
