@@ -44,3 +44,10 @@ def test_skip_remote_data_astropy(pytestconfig):
         assert "An attempt was made to connect to the internet" in str(exc.value)
     else:
         download_file('http://www.google.com')
+
+
+@pytest.mark.internet_off
+def test_internet_off_decorator(pytestconfig):
+    # This test should only run when internet access has been disabled
+    if pytestconfig.getoption('remote_data') != 'none':
+        pytest.fail('@internet_off test ran when remote_data!=none')
