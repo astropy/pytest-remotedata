@@ -12,20 +12,23 @@ def pytest_addoption(parser):
     # The following means that if --remote-data is not specified, the default
     # is 'none', but if it is specified without arguments (--remote-data), it
     # defaults to '--remote-data=any'.
-    parser.addoption("--remote-data", nargs="?", const='any', default='none',
-                     help="run tests with online data")
+    parser.addoption(
+        "--remote-data", nargs="?", const='any', default='none',
+        help="run tests with online data")
 
 
 def pytest_configure(config):
     config.getini('markers').append(
-        'remote_data: Run tests that require data from remote servers')
+        'remote_data: Apply to tests that require data from remote servers')
+    config.getini('markers').append(
+        'internet_off: Apply to tests that should only run when network access is deactivated')
 
     # Monkeypatch to deny access to remote resources unless explicitly told
     # otherwise
-
     if config.getoption('remote_data') != 'any':
-        turn_off_internet(verbose=config.option.verbose,
-                          allow_astropy_data=config.getoption('remote_data') == 'astropy')
+        turn_off_internet(
+            verbose=config.option.verbose,
+            allow_astropy_data=config.getoption('remote_data') == 'astropy')
 
 
 def pytest_unconfigure():
@@ -40,14 +43,16 @@ def pytest_unconfigure():
 
 def pytest_runtest_setup(item):
 
-    remote_data = item.keywords.get('remote_data')
+    remote_data = item.get_marker('remote_data')
+    internet_off = item.get_marker('internet_off')
 
     remote_data_config = item.config.getvalue("remote_data")
 
+    if remote_data is not None and internet_off is not None:
+        raise ValueError("remote_data and internet_off are not compatible")
+
     if remote_data is not None:
-
         source = remote_data.kwargs.get('source', 'any')
-
         if source not in ('astropy', 'any'):
             raise ValueError("source should be 'astropy' or 'any'")
 
@@ -56,3 +61,7 @@ def pytest_runtest_setup(item):
         elif remote_data_config == 'astropy':
             if source == 'any':
                 pytest.skip("need --remote-data option to run")
+
+    if internet_off is not None:
+        if remote_data_config != 'none':
+            pytest.skip("this test only when network access is disabled")

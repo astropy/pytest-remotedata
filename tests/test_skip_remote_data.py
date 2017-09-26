@@ -4,11 +4,10 @@
 
 import pytest
 
-from astropy.tests.helper import remote_data
 from astropy.utils.data import get_pkg_data_filename, download_file
 
 
-@remote_data
+@pytest.mark.remote_data
 def test_skip_remote_data(pytestconfig):
 
     # astropy.test() has remote_data=none or remote_data=astropy but we still
@@ -26,7 +25,7 @@ def test_skip_remote_data(pytestconfig):
     download_file('http://www.google.com')
 
 
-@remote_data(source='astropy')
+@pytest.mark.remote_data(source='astropy')
 def test_skip_remote_data_astropy(pytestconfig):
 
     # astropy.test() has remote_data=none but we still got here somehow,
@@ -45,3 +44,10 @@ def test_skip_remote_data_astropy(pytestconfig):
         assert "An attempt was made to connect to the internet" in str(exc.value)
     else:
         download_file('http://www.google.com')
+
+
+@pytest.mark.internet_off
+def test_internet_off_decorator(pytestconfig):
+    # This test should only run when internet access has been disabled
+    if pytestconfig.getoption('remote_data') != 'none':
+        pytest.fail('@internet_off test ran when remote_data!=none')
