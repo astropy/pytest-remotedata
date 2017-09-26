@@ -64,4 +64,4 @@ def pytest_runtest_setup(item):
 
     if internet_off is not None:
         if remote_data_config != 'none':
-            pytest.skip("this test only when network access is disabled")
+            pytest.skip("run this test only when network access is disabled")
