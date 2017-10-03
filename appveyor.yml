@@ -47,3 +47,6 @@ build: false
 test_script:
   - "%CMD_IN_ENV% %PYTEST_COMMAND%"
   - "%CMD_IN_ENV% %PYTEST_COMMAND% --remote-data"
+  - "%CMD_IN_ENV% %PYTEST_COMMAND% --remote-data=none"
+  - "%CMD_IN_ENV% %PYTEST_COMMAND% --remote-data=astropy"
+  - "%CMD_IN_ENV% %PYTEST_COMMAND% --remote-data=any"
