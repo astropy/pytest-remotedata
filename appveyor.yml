@@ -10,7 +10,7 @@ environment:
       PYTEST_VERSION: "3.2"
       PYTEST_COMMAND: "pytest"
       NUMPY_VERSION: "stable"
-      ASTROPY_VERSION: "latest"
+      ASTROPY_VERSION: "development"
       CONDA_DEPENDENCIES: "six"
       PYTHON_ARCH: "64"
 
