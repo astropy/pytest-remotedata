@@ -4,7 +4,7 @@
 
 import pytest
 
-from astropy.utils.data import get_pkg_data_filename, download_file
+from astropy.utils.data import conf, download_file
 
 
 @pytest.mark.remote_data
@@ -19,7 +19,7 @@ def test_skip_remote_data(pytestconfig):
         pytest.fail('@remote_data was not skipped with remote_data=astropy')
 
     # Test Astropy URL
-    get_pkg_data_filename('galactic_center/gc_2mass_k.fits')
+    download_file(conf.dataurl + 'galactic_center/gc_2mass_k.fits')
 
     # Test non-Astropy URL
     download_file('http://www.google.com')
@@ -35,7 +35,7 @@ def test_skip_remote_data_astropy(pytestconfig):
         pytest.fail('@remote_data was not skipped with remote_data=none')
 
     # Test Astropy URL
-    get_pkg_data_filename('galactic_center/gc_2mass_k.fits')
+    download_file(conf.dataurl + 'galactic_center/gc_2mass_k.fits')
 
     # Test non-Astropy URL
     if pytestconfig.getoption('remote_data') == 'astropy':
