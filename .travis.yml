@@ -9,13 +9,6 @@ os:
 # Use Travis' container-based architecture
 sudo: false
 
-addons:
-  apt:
-    packages:
-    - graphviz
-    - texlive-latex-extra
-    - dvipng
-
 env:
     global:
         # The following versions are the 'default' for tests, unless
