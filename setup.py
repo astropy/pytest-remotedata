@@ -14,7 +14,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytest-remotedata',
-    version='0.1.0',
+    version='0.1.1.dev',
     license='BSD',
     description='Pytest plugin for controlling remote data access.',
     author='The Astropy Developers',
