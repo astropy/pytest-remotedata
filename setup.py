@@ -44,7 +44,6 @@ setup(
     ],
     keywords=[ 'remote', 'data', 'pytest', 'py.test' ],
     install_requires=[ 'six', 'pytest>=2.8.0' ],
-    tests_require=['astropy'],
     python_requires='>=2.7',
     entry_points={
         'pytest11': [
