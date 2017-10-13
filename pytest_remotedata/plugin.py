@@ -23,12 +23,17 @@ def pytest_configure(config):
     config.getini('markers').append(
         'internet_off: Apply to tests that should only run when network access is deactivated')
 
+    remote_data = config.getoption('remote_data')
+    if remote_data not in ['astropy', 'any', 'none']:
+        raise pytest.UsageError(
+            "'{}' is not a valid source for remote data".format(remote_data))
+
     # Monkeypatch to deny access to remote resources unless explicitly told
     # otherwise
-    if config.getoption('remote_data') != 'any':
+    if remote_data != 'any':
         turn_off_internet(
             verbose=config.option.verbose,
-            allow_astropy_data=config.getoption('remote_data') == 'astropy')
+            allow_astropy_data=(remote_data == 'astropy'))
 
 
 def pytest_unconfigure():
