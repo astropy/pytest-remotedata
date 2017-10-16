@@ -18,7 +18,6 @@ env:
         - PYTEST_VERSION=3.2
         - PYTEST_COMMAND='pytest'
         - NUMPY_VERSION=stable
-        - ASTROPY_VERSION=stable
         - CONDA_DEPENDENCIES='six'
 
     matrix:

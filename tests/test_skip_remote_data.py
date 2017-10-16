@@ -3,9 +3,17 @@
 # by run_tests because it has the remote_data decorator.
 
 import pytest
+from contextlib import closing
+from six.moves.urllib.request import urlopen
 
-from astropy.utils.data import conf, download_file
 
+ASTROPY_DATA_URL = "http://data.astropy.org/"
+TIMEOUT = 10
+
+
+def download_file(remote_url):
+    with closing(urlopen(remote_url, timeout=TIMEOUT)) as remote:
+        remote.read()
 
 @pytest.mark.remote_data
 def test_skip_remote_data(pytestconfig):
@@ -19,7 +27,7 @@ def test_skip_remote_data(pytestconfig):
         pytest.fail('@remote_data was not skipped with remote_data=astropy')
 
     # Test Astropy URL
-    download_file(conf.dataurl + 'galactic_center/gc_2mass_k.fits')
+    download_file(ASTROPY_DATA_URL + 'galactic_center/gc_2mass_k.fits')
 
     # Test non-Astropy URL
     download_file('http://www.google.com')
@@ -35,7 +43,7 @@ def test_skip_remote_data_astropy(pytestconfig):
         pytest.fail('@remote_data was not skipped with remote_data=none')
 
     # Test Astropy URL
-    download_file(conf.dataurl + 'galactic_center/gc_2mass_k.fits')
+    download_file(ASTROPY_DATA_URL + 'galactic_center/gc_2mass_k.fits')
 
     # Test non-Astropy URL
     if pytestconfig.getoption('remote_data') == 'astropy':
