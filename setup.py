@@ -12,11 +12,17 @@ from os.path import splitext
 from setuptools import setup, find_packages
 
 
+def readme():
+    with open('README.rst') as ff:
+        return ff.read()
+
+
 setup(
     name='pytest-remotedata',
     version='0.1.1.dev',
     license='BSD',
     description='Pytest plugin for controlling remote data access.',
+    long_description=readme(),
     author='The Astropy Developers',
     author_email='astropy.team@gmail.com',
     url='https://astropy.org',
