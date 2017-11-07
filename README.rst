@@ -29,7 +29,8 @@ The ``pytest-remotedata`` plugin can be installed using ``pip``::
 
     $ pip install pytest-remotedata
 
-It can also be installed from source::
+It is also possible to install the latest development version from the source
+repository::
 
     $ git clone https://github.com/astropy/pytest-remotedata
     $ cd pytest-remotedata
