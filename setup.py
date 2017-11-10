@@ -19,7 +19,7 @@ def readme():
 
 setup(
     name='pytest-remotedata',
-    version='0.2.0',
+    version='0.2.1.dev',
     license='BSD',
     description='Pytest plugin for controlling remote data access.',
     long_description=readme(),
