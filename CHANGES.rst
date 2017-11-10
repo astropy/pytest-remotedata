@@ -1,4 +1,4 @@
-0.1.1 (unreleased)
+0.2.0 (2017-11-10)
 ==================
 
 - Do not accept invalid values passed to ``--remote-data`` argument. [#15]
