@@ -16,12 +16,20 @@ def pytest_addoption(parser):
         "--remote-data", nargs="?", const='any', default='none',
         help="run tests with online data")
 
+    parser.addini('remote_data_strict',
+        "If 'True', tests will fail if they attempt to access the internet "
+        "but are not explicitly marked with 'remote_data'",
+        type="bool", default=False)
+
+
 
 def pytest_configure(config):
     config.getini('markers').append(
         'remote_data: Apply to tests that require data from remote servers')
     config.getini('markers').append(
         'internet_off: Apply to tests that should only run when network access is deactivated')
+
+    strict_check = bool(config.getini('remote_data_strict'))
 
     remote_data = config.getoption('remote_data')
     if remote_data not in ['astropy', 'any', 'none']:
@@ -30,7 +38,7 @@ def pytest_configure(config):
 
     # Monkeypatch to deny access to remote resources unless explicitly told
     # otherwise
-    if remote_data != 'any':
+    if strict_check and remote_data != 'any':
         turn_off_internet(
             verbose=config.option.verbose,
             allow_astropy_data=(remote_data == 'astropy'))

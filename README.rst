@@ -72,8 +72,14 @@ The default behavior is to skip tests that are marked with ``remote_data``.
 If the ``--remote-data`` option is not provided to the ``pytest`` command, or
 if ``--remote-data=none`` is provided, all tests that are marked with
 ``remote_data`` will be skipped. All tests that are marked with
-``internet_off`` will be executed. Any test that attempts to access the
-internet but is not marked with ``remote_data`` will fail.
+``internet_off`` will be executed.
+
+Sometimes it is useful to check that certain tests do not unexpectedly access
+the internet. Strict remote data access checking can be enabled by setting
+``remote_data_strict = true`` in the tested package's ``setup.cfg`` file. If
+this option is enabled, any test that attempts to access the network but is not
+marked with ``@pytest.mark.remote_data`` will fail.
+
 
 Providing either the ``--remote-data`` option, or ``--remote-data=any`` to the
 ``pytest`` command line interface will cause all tests that are marked with
