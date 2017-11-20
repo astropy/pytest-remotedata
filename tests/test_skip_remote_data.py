@@ -15,6 +15,7 @@ def download_file(remote_url):
     with closing(urlopen(remote_url, timeout=TIMEOUT)) as remote:
         remote.read()
 
+
 @pytest.mark.remote_data
 def test_skip_remote_data(pytestconfig):
 

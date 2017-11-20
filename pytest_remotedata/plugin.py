@@ -16,11 +16,14 @@ def pytest_addoption(parser):
         "--remote-data", nargs="?", const='any', default='none',
         help="run tests with online data")
 
-    parser.addini('remote_data_strict',
-        "If 'True', tests will fail if they attempt to access the internet "
-        "but are not explicitly marked with 'remote_data'",
-        type="bool", default=False)
+    parser.addoption(
+        "--remote-data-only", action='store_true',
+        help="only run tests that need online data")
 
+    parser.addini('remote_data_strict',
+                  "If 'True', tests will fail if they attempt to access the internet "
+                  "but are not explicitly marked with 'remote_data'",
+                  type="bool", default=False)
 
 
 def pytest_configure(config):
@@ -31,7 +34,11 @@ def pytest_configure(config):
 
     strict_check = bool(config.getini('remote_data_strict'))
 
+    if config.option.remote_data_only and config.option.remote_data != 'any':
+        config.option.remote_data = 'any'
+
     remote_data = config.getoption('remote_data')
+
     if remote_data not in ['astropy', 'any', 'none']:
         raise pytest.UsageError(
             "'{}' is not a valid source for remote data".format(remote_data))
@@ -60,6 +67,7 @@ def pytest_runtest_setup(item):
     internet_off = item.get_marker('internet_off')
 
     remote_data_config = item.config.getvalue("remote_data")
+    remote_data_only_config = item.config.getvalue("remote_data_only")
 
     if remote_data is not None and internet_off is not None:
         raise ValueError("remote_data and internet_off are not compatible")
@@ -74,6 +82,9 @@ def pytest_runtest_setup(item):
         elif remote_data_config == 'astropy':
             if source == 'any':
                 pytest.skip("need --remote-data option to run")
+    else:
+        if remote_data_only_config:
+            pytest.skip("Running only remote_data tests")
 
     if internet_off is not None:
         if remote_data_config != 'none':
