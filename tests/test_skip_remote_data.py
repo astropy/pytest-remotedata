@@ -2,13 +2,23 @@
 # this test doesn't actually use any online data, it should just be skipped
 # by run_tests because it has the remote_data decorator.
 
+import sys
+
 import pytest
 from contextlib import closing
+
+import six
 from six.moves.urllib.request import urlopen
 
 
 ASTROPY_DATA_URL = "http://data.astropy.org/"
 TIMEOUT = 10
+
+if six.PY2:
+    _EXPECTED_ERROR = IOError
+else:
+    from six.moves.urllib.error import URLError
+    _EXPECTED_ERROR = URLError
 
 
 def download_file(remote_url):
@@ -59,3 +69,20 @@ def test_internet_off_decorator(pytestconfig):
     # This test should only run when internet access has been disabled
     if pytestconfig.getoption('remote_data') != 'none':
         pytest.fail('@internet_off test ran when remote_data!=none')
+
+
+def test_block_internet_connection(pytestconfig):
+    if pytestconfig.getoption('remote_data') == 'none':
+        with pytest.raises(_EXPECTED_ERROR):
+            download_file('http://www.google.com')
+    elif pytestconfig.getoption('remote_data') == 'astropy':
+        with pytest.raises(_EXPECTED_ERROR):
+            download_file('http://www.google.com')
+    else:
+        download_file('http://www.google.com')
+
+
+@pytest.mark.internet_off
+def test_block_internet_connection_internet_off():
+    with pytest.raises(_EXPECTED_ERROR):
+        download_file('http://www.google.com')
