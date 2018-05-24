@@ -2,8 +2,6 @@
 # this test doesn't actually use any online data, it should just be skipped
 # by run_tests because it has the remote_data decorator.
 
-import sys
-
 import pytest
 from contextlib import closing
 
@@ -25,6 +23,7 @@ def download_file(remote_url):
     with closing(urlopen(remote_url, timeout=TIMEOUT)) as remote:
         remote.read()
 
+
 @pytest.mark.remote_data
 def test_skip_remote_data(pytestconfig):
 
@@ -35,6 +34,8 @@ def test_skip_remote_data(pytestconfig):
         pytest.fail('@remote_data was not skipped with remote_data=none')
     elif pytestconfig.getoption('remote_data') == 'astropy':
         pytest.fail('@remote_data was not skipped with remote_data=astropy')
+    elif pytestconfig.getoption('remote_data') == 'github':
+        pytest.fail('@remote_data was not skipped with remote_data=github')
 
     # Test Astropy URL
     download_file(ASTROPY_DATA_URL + 'galactic_center/gc_2mass_k.fits')
@@ -64,6 +65,23 @@ def test_skip_remote_data_astropy(pytestconfig):
         download_file('http://www.google.com')
 
 
+@pytest.mark.remote_data(source='github')
+def test_skip_remote_data_github(pytestconfig):
+    if pytestconfig.getoption('remote_data') == 'none':
+        pytest.fail('@remote_data was not skipped with remote_data=none')
+
+    # Test GitHub URL
+    download_file('http://astropy.github.io')
+
+    # Test non-GitHub URL
+    if pytestconfig.getoption('remote_data') == 'github':
+        with pytest.raises(Exception) as exc:
+            download_file(ASTROPY_DATA_URL)
+        assert "An attempt was made to connect to the internet" in str(exc.value)
+    else:
+        download_file('http://www.google.com')
+
+
 @pytest.mark.internet_off
 def test_internet_off_decorator(pytestconfig):
     # This test should only run when internet access has been disabled
@@ -76,6 +94,9 @@ def test_block_internet_connection(pytestconfig):
         with pytest.raises(_EXPECTED_ERROR):
             download_file('http://www.google.com')
     elif pytestconfig.getoption('remote_data') == 'astropy':
+        with pytest.raises(_EXPECTED_ERROR):
+            download_file('http://www.google.com')
+    elif pytestconfig.getoption('remote_data') == 'github':
         with pytest.raises(_EXPECTED_ERROR):
             download_file('http://www.google.com')
     else:
