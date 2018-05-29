@@ -1,3 +1,8 @@
+0.3.0 (unreleased)
+==================
+
+- Allow ``remote_data`` argument to be passed without ``source`` keyword. [#27]
+
 0.2.2 (unreleased)
 ==================
 
