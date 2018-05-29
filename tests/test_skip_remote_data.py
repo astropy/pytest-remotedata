@@ -77,7 +77,7 @@ def test_skip_remote_data_github(pytestconfig):
         pytest.fail('@remote_data was not skipped with remote_data=none')
 
     # Test GitHub URL
-    download_file('http://astropy.github.io')
+    download_file(GITHUB_DATA_URL)
 
     # Test non-GitHub URL
     if pytestconfig.getoption('remote_data') == 'github':

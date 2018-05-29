@@ -78,7 +78,7 @@ def check_internet_off(original_function, allow_astropy_data=False,
                 valid_hosts = valid_hosts.union(_resolve_host_ips(valid_host))
 
         # Only GitHub data
-        if allow_github_data and not allow_astropy_data:
+        elif allow_github_data:
             for valid_host in GITHUB_HOSTS:
                 valid_hosts = valid_hosts.union(_resolve_host_ips(valid_host))
 
