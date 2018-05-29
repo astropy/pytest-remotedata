@@ -65,7 +65,11 @@ def pytest_runtest_setup(item):
         raise ValueError("remote_data and internet_off are not compatible")
 
     if remote_data is not None:
-        source = remote_data.kwargs.get('source', 'any')
+        if len(remote_data.args) > 0:
+            source = remote_data.args[0]
+        else:
+            source = remote_data.kwargs.get('source', 'any')
+
         if source not in ('astropy', 'any'):
             raise ValueError("source should be 'astropy' or 'any'")
 
