@@ -80,7 +80,13 @@ def pytest_runtest_setup(item):
 
         if remote_data_config == 'none':
             pytest.skip("need --remote-data option to run")
-        elif remote_data_config in ('astropy', 'github'):
+        elif remote_data_config == 'github':
+            if source in ('any', 'astropy'):
+                pytest.skip("need --remote-data or "
+                            "--remote-data=astropy option to run")
+        elif remote_data_config == 'astropy':
+            # When --remote-data=astropy is given, skip tests simply
+            # marked as --remote-data
             if source == 'any':
                 pytest.skip("need --remote-data option to run")
 
