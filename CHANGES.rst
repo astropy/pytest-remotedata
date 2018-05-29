@@ -3,6 +3,9 @@
 
 - Allow ``remote_data`` argument to be passed without ``source`` keyword. [#27]
 
+- Add ``source='github'`` option. Also fix IP lookup error for
+  ``source='astropy'`` option. [#28]
+
 0.2.2 (unreleased)
 ==================
 
