@@ -42,5 +42,6 @@ script:
    - $PYTEST_COMMAND
    - $PYTEST_COMMAND --remote-data
    - $PYTEST_COMMAND --remote-data=none
+   - $PYTEST_COMMAND --remote-data=github
    - $PYTEST_COMMAND --remote-data=astropy
    - $PYTEST_COMMAND --remote-data=any
