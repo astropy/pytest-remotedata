@@ -61,8 +61,8 @@ def pytest_unconfigure():
 
 def pytest_runtest_setup(item):
 
-    remote_data = item.get_marker('remote_data')
-    internet_off = item.get_marker('internet_off')
+    remote_data = item.get_closest_marker('remote_data')
+    internet_off = item.get_closest_marker('internet_off')
 
     remote_data_config = item.config.getvalue("remote_data")
 
