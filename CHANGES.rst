@@ -1,5 +1,7 @@
-0.3.1 (unreleased)
+0.3.1 (2018-10-23)
 ==================
+
+- Fix warnings that occur with ``pytest-3.7`` and later. [#34]
 
 0.3.0 (2018-05-29)
 ==================
