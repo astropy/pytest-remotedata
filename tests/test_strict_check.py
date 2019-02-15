@@ -18,7 +18,7 @@ PYFILE_CONTENTS = """
 def _write_config_file(testdir, entry):
     config = testdir.tmpdir.join('setup.cfg')
     config.write("""
-[pytest]
+[tool:pytest]
 {}
         """.format(entry))
 
