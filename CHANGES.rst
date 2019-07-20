@@ -1,11 +1,12 @@
-0.3.2 (unreleased)
+0.3.2 (2019-07-20)
 ==================
 
+- Fixed compatibility with pytest 4.2 and later. [#38, #40]
 
 0.3.1 (2018-10-23)
 ==================
 
-- Fix warnings that occur with ``pytest-3.7`` and later. [#34]
+- Fix warnings that occur with pytest 3.7 and later. [#34]
 
 0.3.0 (2018-05-29)
 ==================
