@@ -34,9 +34,11 @@ def pytest_configure(config):
     strict_check = bool(config.getini('remote_data_strict'))
 
     remote_data = config.getoption('remote_data')
-    if remote_data not in ['astropy', 'any', 'github', 'none']:
+    options = ['astropy', 'any', 'github', 'none']
+    if remote_data not in options:
         raise pytest.UsageError(
-            "'{}' is not a valid source for remote data".format(remote_data))
+            "'{}' is not a valid source for remote data, "
+            "use one of '{}'".format(remote_data, "', '".join(options)))
 
     # Monkeypatch to deny access to remote resources unless explicitly told
     # otherwise
