@@ -101,10 +101,6 @@ Development Status
     :target: https://travis-ci.org/astropy/pytest-remotedata
     :alt: Travis CI Status
 
-.. image:: https://ci.appveyor.com/api/projects/status/ym7lxajcs5qwm31e/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/Astropy/pytest-remotedata/branch/master
-    :alt: Appveyor Status
-
 Questions, bug reports, and feature requests can be submitted on `github`_.
 
 .. _github: https://github.com/astropy/pytest-remotedata
