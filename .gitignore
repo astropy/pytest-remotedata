@@ -55,3 +55,4 @@ htmlcov
 .idea
 
 pytest_remotedata/version.py
+pip-wheel-metadata/
