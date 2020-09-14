@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import setuptools
 from distutils.version import LooseVersion
@@ -11,4 +12,4 @@ if LooseVersion(setuptools.__version__) < LooseVersion('30.3.0'):
                      "later (found {0})".format(setuptools.__version__))
     sys.exit(1)
 
-setup()
+setup(use_scm_version={'write_to': os.path.join('pytest_remotedata', 'version.py')})

@@ -53,3 +53,5 @@ htmlcov
 
 # PyCharm
 .idea
+
+pytest_remotedata/version.py
