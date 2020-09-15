@@ -46,6 +46,11 @@ matrix:
           env: PYTHON_VERSION=3.8
                TOXENV=py38-test-pytest53
 
+        - language: python
+          python: 3.8
+          name: Python 3.8 and pytest 6.0 (Linux)
+          env: TOXENV=py38-test-pytest60
+
         - os: osx
           name: Python 3.8 and pytest dev (MacOS X)
           env: PYTHON_VERSION=3.8
