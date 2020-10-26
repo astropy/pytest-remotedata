@@ -97,8 +97,8 @@ remote data sources in addition to ``astropy``.
 Development Status
 ------------------
 
-.. image:: https://travis-ci.org/astropy/pytest-remotedata.svg
-    :target: https://travis-ci.org/astropy/pytest-remotedata
+.. image:: https://travis-ci.com/astropy/pytest-remotedata.svg
+    :target: https://travis-ci.com/astropy/pytest-remotedata
     :alt: Travis CI Status
 
 Questions, bug reports, and feature requests can be submitted on `github`_.
