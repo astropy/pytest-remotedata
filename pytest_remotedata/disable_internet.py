@@ -1,7 +1,7 @@
 # Licensed under a 3-clause BSD style license - see LICENSE.rst
 import contextlib
 import socket
-import urllib
+import urllib.request
 
 # save original socket method for restoration
 # These are global so that re-calling the turn_off_internet function doesn't
