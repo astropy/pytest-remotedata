@@ -1,14 +1,11 @@
 # Licensed under a 3-clause BSD style license - see LICENSE.rst
 import sys
 import time
-
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
-
-from six.moves import BaseHTTPServer, SimpleHTTPServer
-from six.moves.urllib.request import urlopen
+from urllib.request import urlopen
 
 import pytest
-
 from pytest_remotedata.disable_internet import no_internet
 
 
@@ -18,7 +15,7 @@ def test_outgoing_fails():
             urlopen('http://www.python.org')
 
 
-class StoppableHTTPServer(BaseHTTPServer.HTTPServer, object):
+class StoppableHTTPServer(HTTPServer, object):
     def __init__(self, *args):
         super(StoppableHTTPServer, self).__init__(*args)
         self.stop = False
@@ -44,8 +41,7 @@ def test_localconnect_succeeds(localhost):
 
     # port "0" means find open port
     # see http://stackoverflow.com/questions/1365265/on-localhost-how-to-pick-a-free-port-number
-    httpd = StoppableHTTPServer(('localhost', 0),
-                                SimpleHTTPServer.SimpleHTTPRequestHandler)
+    httpd = StoppableHTTPServer(('localhost', 0), SimpleHTTPRequestHandler)
 
     port = httpd.socket.getsockname()[1]
 

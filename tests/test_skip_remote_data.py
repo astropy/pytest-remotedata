@@ -2,23 +2,16 @@
 # this test doesn't actually use any online data, it should just be skipped
 # by run_tests because it has the remote_data decorator.
 
-import pytest
 from contextlib import closing
+from urllib.error import URLError
+from urllib.request import urlopen
 
-import six
-from six.moves.urllib.request import urlopen
-
+import pytest
 
 ASTROPY_DATA_URL = "http://data.astropy.org/"
 GITHUB_DATA_URL = "http://astropy.github.io/"
 EXTERNAL_URL = "http://www.google.com"
 TIMEOUT = 10
-
-if six.PY2:
-    _EXPECTED_ERROR = IOError
-else:
-    from six.moves.urllib.error import URLError
-    _EXPECTED_ERROR = URLError
 
 
 def download_file(remote_url):
@@ -97,13 +90,13 @@ def test_internet_off_decorator(pytestconfig):
 
 def test_block_internet_connection(pytestconfig):
     if pytestconfig.getoption('remote_data') == 'none':
-        with pytest.raises(_EXPECTED_ERROR):
+        with pytest.raises(URLError):
             download_file(EXTERNAL_URL)
     elif pytestconfig.getoption('remote_data') == 'astropy':
-        with pytest.raises(_EXPECTED_ERROR):
+        with pytest.raises(URLError):
             download_file(EXTERNAL_URL)
     elif pytestconfig.getoption('remote_data') == 'github':
-        with pytest.raises(_EXPECTED_ERROR):
+        with pytest.raises(URLError):
             download_file(EXTERNAL_URL)
     else:
         download_file(EXTERNAL_URL)
@@ -111,5 +104,5 @@ def test_block_internet_connection(pytestconfig):
 
 @pytest.mark.internet_off
 def test_block_internet_connection_internet_off():
-    with pytest.raises(_EXPECTED_ERROR):
+    with pytest.raises(URLError):
         download_file(EXTERNAL_URL)
