@@ -34,7 +34,7 @@ repository::
 
     $ git clone https://github.com/astropy/pytest-remotedata
     $ cd pytest-remotedata
-    $ python ./setup.py install
+    $ pip install .
 
 In either case, the plugin will automatically be registered for use with
 ``pytest``.
