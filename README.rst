@@ -8,7 +8,7 @@ It was originally part of the `astropy`_ core package, but has been moved to a
 separate package in order to be of more general use.
 
 .. _pytest: https://pytest.org/en/latest/
-.. _astropy: https://astropy.org/en/latest/
+.. _astropy: https://astropy.org/
 
 
 Motivation
