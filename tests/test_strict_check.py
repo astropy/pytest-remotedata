@@ -5,7 +5,7 @@ import pytest
 
 PYFILE_CONTENTS = """
     import pytest
-    from six.moves.urllib.request import urlopen
+    from urllib.request import urlopen
 
     def test_config_setting(pytestconfig):
         assert pytestconfig.getini('remote_data_strict') == {}
