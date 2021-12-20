@@ -6,7 +6,7 @@ make use of online data.
 import pytest
 from packaging.version import Version
 
-from pytest_remotedata.plugin.disable_internet import turn_off_internet, turn_on_internet  # noqa
+from .disable_internet import turn_off_internet, turn_on_internet
 
 
 def pytest_addoption(parser):
