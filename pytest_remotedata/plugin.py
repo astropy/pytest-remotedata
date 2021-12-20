@@ -4,8 +4,9 @@ This plugin provides command-line options for controlling whether and how tests
 make use of online data.
 """
 import pytest
+from packaging.version import Version
+
 from .disable_internet import turn_off_internet, turn_on_internet
-from distutils.version import LooseVersion
 
 
 def pytest_addoption(parser):
@@ -64,7 +65,7 @@ def pytest_unconfigure():
 
 def pytest_runtest_setup(item):
 
-    if LooseVersion(pytest.__version__) < LooseVersion("3.6"):
+    if Version(pytest.__version__) < Version("3.6"):
         remote_data = item.get_marker('remote_data')
         internet_off = item.get_marker('internet_off')
     else:
