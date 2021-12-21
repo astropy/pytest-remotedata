@@ -2,6 +2,10 @@
 pytest-remotedata
 =================
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5796951.svg
+   :target: https://doi.org/10.5281/zenodo.5796951
+   :alt: 10.5281/zenodo.5796951
+
 .. image:: https://github.com/astropy/pytest-remotedata/workflows/Run%20unit%20tests/badge.svg
     :target: https://github.com/astropy/pytest-remotedata/actions
     :alt: CI Status
