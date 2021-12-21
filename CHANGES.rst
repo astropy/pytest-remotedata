@@ -1,7 +1,8 @@
-0.4.0 (unreleased)
+0.3.3 (2021-12-21)
 ==================
 
-- No changes yet.
+- Various infrastructure and packaging updates. If you have trouble
+  installing an older version, try upgrading to this one.
 
 0.3.2 (2019-07-20)
 ==================
