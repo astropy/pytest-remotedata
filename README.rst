@@ -2,6 +2,10 @@
 pytest-remotedata
 =================
 
+.. image:: https://github.com/astropy/pytest-remotedata/workflows/Run%20unit%20tests/badge.svg
+    :target: https://github.com/astropy/pytest-remotedata/actions
+    :alt: CI Status
+
 This package provides a plugin for the `pytest`_ framework that allows
 developers to control unit tests that require access to data from the internet.
 It was originally part of the `astropy`_ core package, but has been moved to a
@@ -96,10 +100,6 @@ remote data sources in addition to ``astropy``.
 
 Development Status
 ------------------
-
-.. image:: https://github.com/astropy/pytest-remotedata/workflows/Run%20unit%20tests/badge.svg
-    :target: https://github.com/astropy/pytest-remotedata/actions
-    :alt: CI Status
 
 Questions, bug reports, and feature requests can be submitted on `github`_.
 
