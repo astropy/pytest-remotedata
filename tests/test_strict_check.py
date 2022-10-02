@@ -15,6 +15,7 @@ PYFILE_CONTENTS = """
         urlopen('http://astropy.org')
     """
 
+
 def _write_config_file(testdir, entry):
     config = testdir.tmpdir.join('setup.cfg')
     config.write("""
@@ -27,7 +28,7 @@ def _write_config_file(testdir, entry):
 
 
 def test_local_config(pytestconfig):
-    assert pytestconfig.getini('remote_data_strict') == True
+    assert pytestconfig.getini('remote_data_strict') is True
 
 
 def test_default_behavior(testdir):
