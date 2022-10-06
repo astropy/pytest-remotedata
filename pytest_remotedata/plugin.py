@@ -4,7 +4,6 @@ This plugin provides command-line options for controlling whether and how tests
 make use of online data.
 """
 import pytest
-from packaging.version import Version
 
 from .disable_internet import turn_off_internet, turn_on_internet
 
@@ -13,9 +12,9 @@ def pytest_addoption(parser):
 
     # The following means that if --remote-data is not specified, the default
     # is 'none', but if it is specified without arguments (--remote-data), it
-    # defaults to '--remote-data=any'.
+    # defaults to '--remote-data=any'. -R is short for --remote-data
     parser.addoption(
-        "--remote-data", nargs="?", const='any', default='none',
+        "--remote-data", "-R", nargs="?", const='any', default='none',
         help="run tests with online data")
 
     parser.addini(
@@ -65,12 +64,8 @@ def pytest_unconfigure():
 
 def pytest_runtest_setup(item):
 
-    if Version(pytest.__version__) < Version("3.6"):
-        remote_data = item.get_marker('remote_data')
-        internet_off = item.get_marker('internet_off')
-    else:
-        remote_data = item.get_closest_marker('remote_data')
-        internet_off = item.get_closest_marker('internet_off')
+    remote_data = item.get_closest_marker('remote_data')
+    internet_off = item.get_closest_marker('internet_off')
 
     remote_data_config = item.config.getvalue("remote_data")
 

@@ -1,6 +1,9 @@
 0.4.0 (unreleased)
 ==================
 
+- ``-R`` is added as a short version for the command-line option
+  ``--remote-data``. [#62]
+
 0.3.3 (2021-12-21)
 ==================
 

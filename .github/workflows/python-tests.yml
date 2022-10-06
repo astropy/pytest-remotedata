@@ -38,9 +38,12 @@ jobs:
           - os: ubuntu-latest
             python-version: 3.9
             toxenv: py39-test-pytest61
+          - os: ubuntu-latest
+            python-version: '3.10'
+            toxenv: py310-test-pytest71
           - os: macos-latest
-            python-version: 3.8
-            toxenv: py38-test-pytestdev
+            python-version: '3.10'
+            toxenv: py310-test-pytestdev
 
     steps:
     - uses: actions/checkout@v2
