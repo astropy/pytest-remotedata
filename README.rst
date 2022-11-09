@@ -99,6 +99,9 @@ receive remote data from Astropy data sources to be run. Tests with any other
 data sources will be skipped. This is indicated in the test code by marking
 test functions with ``@pytest.mark.remote_data(source='astropy')``.
 
+Running only the tests marked as ``remote_data``, use the built-in pytest
+machinery, e.g., ``pytest -m remote_data --remote-data``.
+
 In the future, we intend to support a configurable way to indicate specific
 remote data sources in addition to ``astropy``.
 
