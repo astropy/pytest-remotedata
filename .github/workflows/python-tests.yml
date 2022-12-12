@@ -26,7 +26,7 @@ jobs:
           - os: ubuntu-latest
             python-version: 3.7
             toxenv: py37-test-pytest51
-          - os: ubuntu-latest
+          - os: windows-latest
             python-version: 3.7
             toxenv: py37-test-pytest52
           - os: windows-latest
@@ -42,7 +42,10 @@ jobs:
             python-version: '3.10'
             toxenv: py310-test-pytest71
           - os: macos-latest
-            python-version: '3.10'
+            python-version: '3.11'
+            toxenv: py310-test-pytest72
+          - os: ubuntu-latest
+            python-version: '3.11'
             toxenv: py310-test-pytestdev
 
     steps:
