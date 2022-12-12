@@ -43,10 +43,10 @@ jobs:
             toxenv: py310-test-pytest71
           - os: macos-latest
             python-version: '3.11'
-            toxenv: py310-test-pytest72
+            toxenv: py311-test-pytest72
           - os: ubuntu-latest
             python-version: '3.11'
-            toxenv: py310-test-pytestdev
+            toxenv: py311-test-pytestdev
 
     steps:
     - uses: actions/checkout@v3
