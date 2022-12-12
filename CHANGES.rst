@@ -1,4 +1,4 @@
-0.4.0 (unreleased)
+0.4.0 (2022-12-11)
 ==================
 
 - ``-R`` is added as a short version for the command-line option
