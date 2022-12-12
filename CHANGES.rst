@@ -4,6 +4,8 @@
 - ``-R`` is added as a short version for the command-line option
   ``--remote-data``. [#62]
 
+- Versions of Python <3.7 are no longer supported. [#65]
+
 0.3.3 (2021-12-21)
 ==================
 
