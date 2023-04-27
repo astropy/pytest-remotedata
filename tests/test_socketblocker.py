@@ -45,7 +45,7 @@ def test_localconnect_succeeds(localhost):
     port = httpd.socket.getsockname()[1]
 
     server = Thread(target=httpd.serve_forever)
-    server.setDaemon(True)
+    server.daemon = True
 
     server.start()
     time.sleep(0.1)
