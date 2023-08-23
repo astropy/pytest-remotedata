@@ -12,10 +12,10 @@ def pytest_addoption(parser):
 
     # The following means that if --remote-data is not specified, the default
     # is 'none', but if it is specified without arguments (--remote-data), it
-    # defaults to '--remote-data=any'. -R is short for --remote-data
+    # defaults to '--remote-data=any'.
     parser.addoption(
-        "--remote-data", "-R", nargs="?", const='any', default='none',
         help="run tests with online data")
+        "--remote-data", nargs="?", const='any', default='none',
 
     parser.addini(
         'remote_data_strict',
