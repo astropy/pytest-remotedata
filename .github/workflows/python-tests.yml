@@ -7,8 +7,8 @@ on:
     tags:
   workflow_dispatch:
   schedule:
-    # Run every Sunday at 03:53 UTC
-    - cron: 53 3 * * 0
+    # Run every Tuesday at 03:53 UTC
+    - cron: 53 3 * * 2
 
 jobs:
   tests:
@@ -19,7 +19,7 @@ jobs:
         include:
           - os: macos-latest
             python-version: 3.7
-            toxenv: py37-test-pytest46
+            toxenv: py37-test-pytestoldest
           - os: ubuntu-latest
             python-version: 3.7
             toxenv: py37-test-pytest50
@@ -46,7 +46,19 @@ jobs:
             toxenv: py311-test-pytest72
           - os: ubuntu-latest
             python-version: '3.11'
+            toxenv: py310-test-pytest73
+          - os: windows-latest
+            python-version: '3.11'
+            toxenv: py310-test-pytest74
+          - os: macos-latest
+            python-version: '3.11'
             toxenv: py311-test-pytestdev
+          - os: windows-latest
+            python-version: '3.11'
+            toxenv: py311-test-pytestdev
+          - os: ubuntu-latest
+            python-version: '3.12-dev'
+            toxenv: py312-test-pytestdev
 
     steps:
     - uses: actions/checkout@v3
@@ -60,11 +72,3 @@ jobs:
       run: python -m pip install tox
     - name: Run Tox
       run: tox -v -e ${{ matrix.toxenv }}
-
-    # - name: Slack Notification
-    #   uses: 8398a7/action-slack@v3
-    #   with:
-    #     status: ${{ job.status }}
-    #   env:
-    #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-    #   if: always() # TODO: cron
