@@ -57,7 +57,7 @@ jobs:
             python-version: '3.11'
             toxenv: py311-test-pytestdev
           - os: ubuntu-latest
-            python-version: '3.12'
+            python-version: '3.12-dev'
             toxenv: py312-test-pytestdev
 
     steps:
