@@ -19,7 +19,7 @@ jobs:
         include:
           - os: macos-latest
             python-version: 3.7
-            toxenv: py37-test-pytest46
+            toxenv: py37-test-pytestoldest
           - os: ubuntu-latest
             python-version: 3.7
             toxenv: py37-test-pytest50
@@ -46,7 +46,19 @@ jobs:
             toxenv: py311-test-pytest72
           - os: ubuntu-latest
             python-version: '3.11'
+            toxenv: py310-test-pytest73
+          - os: windows-latest
+            python-version: '3.11'
+            toxenv: py310-test-pytest74
+          - os: macos-latest
+            python-version: '3.11'
             toxenv: py311-test-pytestdev
+          - os: windows-latest
+            python-version: '3.11'
+            toxenv: py311-test-pytestdev
+          - os: ubuntu-latest
+            python-version: '3.12'
+            toxenv: py312-test-pytestdev
 
     steps:
     - uses: actions/checkout@v3
