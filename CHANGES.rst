@@ -1,7 +1,8 @@
 0.4.1 (unreleased)
 ==================
 
-- No changes yet.
+- Reverting the short option of ``-R`` due to a clash with ``pytest-leaks``.
+  The short option is added to ``pytest-astropy`` instead. [#70]
 
 0.4.0 (2022-12-11)
 ==================

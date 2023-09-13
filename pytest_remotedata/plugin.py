@@ -12,10 +12,11 @@ def pytest_addoption(parser):
 
     # The following means that if --remote-data is not specified, the default
     # is 'none', but if it is specified without arguments (--remote-data), it
-    # defaults to '--remote-data=any'. -R is short for --remote-data
+    # defaults to '--remote-data=any'.
     parser.addoption(
-        "--remote-data", "-R", nargs="?", const='any', default='none',
-        help="run tests with online data")
+        "--remote-data", nargs="?", const='any', default='none',
+        help="run tests with online data",
+        choices=['astropy', 'any', 'github', 'none'])
 
     parser.addini(
         'remote_data_strict',
@@ -34,11 +35,6 @@ def pytest_configure(config):
     strict_check = bool(config.getini('remote_data_strict'))
 
     remote_data = config.getoption('remote_data')
-    options = ['astropy', 'any', 'github', 'none']
-    if remote_data not in options:
-        raise pytest.UsageError(
-            "'{}' is not a valid source for remote data, "
-            "use one of '{}'".format(remote_data, "', '".join(options)))
 
     # Monkeypatch to deny access to remote resources unless explicitly told
     # otherwise
