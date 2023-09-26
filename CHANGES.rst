@@ -1,4 +1,4 @@
-0.4.1 (unreleased)
+0.4.1 (2023-09-25)
 ==================
 
 - Reverting the short option of ``-R`` due to a clash with ``pytest-leaks``.
