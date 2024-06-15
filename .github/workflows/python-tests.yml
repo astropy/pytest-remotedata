@@ -46,16 +46,22 @@ jobs:
             toxenv: py311-test-pytest72
           - os: ubuntu-latest
             python-version: '3.11'
-            toxenv: py310-test-pytest73
+            toxenv: py311-test-pytest73
           - os: windows-latest
             python-version: '3.11'
-            toxenv: py310-test-pytest74
+            toxenv: py311-test-pytest74
+          - os: ubuntu-latest
+            python-version: '3.12'
+            toxenv: py312-test-pytest81
+          - os: ubuntu-latest
+            python-version: '3.12'
+            toxenv: py312-test-pytest82
           - os: macos-latest
-            python-version: '3.11'
-            toxenv: py311-test-pytestdev
+            python-version: '3.12'
+            toxenv: py312-test-pytestdev
           - os: windows-latest
-            python-version: '3.11'
-            toxenv: py311-test-pytestdev
+            python-version: '3.12'
+            toxenv: py312-test-pytestdev
           - os: ubuntu-latest
             python-version: '3.12'
             toxenv: py312-test-pytestdev
