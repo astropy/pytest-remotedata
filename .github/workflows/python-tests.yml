@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-latest
+          - os: macos-12
             python-version: 3.7
             toxenv: py37-test-pytestoldest
           - os: ubuntu-latest
@@ -46,26 +46,32 @@ jobs:
             toxenv: py311-test-pytest72
           - os: ubuntu-latest
             python-version: '3.11'
-            toxenv: py310-test-pytest73
+            toxenv: py311-test-pytest73
           - os: windows-latest
             python-version: '3.11'
-            toxenv: py310-test-pytest74
+            toxenv: py311-test-pytest74
+          - os: ubuntu-latest
+            python-version: '3.12'
+            toxenv: py312-test-pytest81
+          - os: ubuntu-latest
+            python-version: '3.12'
+            toxenv: py312-test-pytest82
           - os: macos-latest
-            python-version: '3.11'
-            toxenv: py311-test-pytestdev
+            python-version: '3.12'
+            toxenv: py312-test-pytestdev
           - os: windows-latest
-            python-version: '3.11'
-            toxenv: py311-test-pytestdev
+            python-version: '3.12'
+            toxenv: py312-test-pytestdev
           - os: ubuntu-latest
             python-version: '3.12'
             toxenv: py312-test-pytestdev
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
       with:
         fetch-depth: 0
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Tox
