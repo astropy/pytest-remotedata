@@ -29,9 +29,9 @@ def _resolve_host_ips(hostname, port=80):
     IPv4/v6 dual stack.
     """
     try:
-        ips = set([s[-1][0] for s in socket.getaddrinfo(hostname, port)])
+        ips = {s[-1][0] for s in socket.getaddrinfo(hostname, port)}
     except socket.gaierror:
-        ips = set([])
+        ips = set()
 
     ips.add(hostname)
     return ips
@@ -59,7 +59,7 @@ def check_internet_off(original_function, allow_astropy_data=False,
                 return original_function(*args, **kwargs)
             host = args[1][0]
             addr_arg = 1
-            valid_hosts = set(['localhost', '127.0.0.1', '::1'])
+            valid_hosts = {'localhost', '127.0.0.1', '::1'}
         else:
             # The only other function this is used to wrap currently is
             # socket.create_connection, which should be passed a 2-tuple, but
@@ -69,7 +69,7 @@ def check_internet_off(original_function, allow_astropy_data=False,
 
             host = args[0][0]
             addr_arg = 0
-            valid_hosts = set(['localhost', '127.0.0.1'])
+            valid_hosts = {'localhost', '127.0.0.1'}
 
         # Astropy + GitHub data
         if allow_astropy_data:
@@ -86,7 +86,7 @@ def check_internet_off(original_function, allow_astropy_data=False,
 
         if host in (hostname, fqdn):
             host = 'localhost'
-            host_ips = set([host])
+            host_ips = {host}
             new_addr = (host, args[addr_arg][1])
             args = args[:addr_arg] + (new_addr,) + args[addr_arg + 1:]
         else:
@@ -95,9 +95,9 @@ def check_internet_off(original_function, allow_astropy_data=False,
         if len(host_ips & valid_hosts) > 0:  # Any overlap is acceptable
             return original_function(*args, **kwargs)
         else:
-            raise IOError("An attempt was made to connect to the internet "
+            raise OSError("An attempt was made to connect to the internet "
                           "by a test that was not marked `remote_data`. The "
-                          "requested host was: {0}".format(host))
+                          "requested host was: {}".format(host))
     return new_function
 
 

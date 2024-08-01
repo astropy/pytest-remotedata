@@ -14,14 +14,14 @@ def test_outgoing_fails():
             urlopen('http://www.python.org')
 
 
-class StoppableHTTPServer(HTTPServer, object):
+class StoppableHTTPServer(HTTPServer):
     def __init__(self, *args):
-        super(StoppableHTTPServer, self).__init__(*args)
+        super().__init__(*args)
         self.stop = False
 
     def handle_request(self):
         self.stop = True
-        super(StoppableHTTPServer, self).handle_request()
+        super().handle_request()
 
     def serve_forever(self):
         """
@@ -50,7 +50,7 @@ def test_localconnect_succeeds(localhost):
     server.start()
     time.sleep(0.1)
 
-    urlopen('http://{localhost:s}:{port:d}'.format(localhost=localhost, port=port)).close()
+    urlopen(f'http://{localhost:s}:{port:d}').close()
     httpd.server_close()
 
 
