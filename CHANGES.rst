@@ -1,7 +1,7 @@
 0.4.2 (unreleased)
 ==================
 
-- No changes yet.
+- Versions of Python <3.8 are no longer supported. [#81]
 
 
 0.4.1 (2023-09-25)
