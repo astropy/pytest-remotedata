@@ -51,7 +51,7 @@ def check_internet_off(original_function, allow_astropy_data=False,
     """
 
     def new_function(*args, **kwargs):
-        if isinstance(args[0], socket.socket):
+        if isinstance(args[0], socket_original):
             if not args[0].family in (socket.AF_INET, socket.AF_INET6):
                 # Should be fine in all but some very obscure cases
                 # More to the point, we don't want to affect AF_UNIX
