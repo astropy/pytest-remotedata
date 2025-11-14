@@ -18,11 +18,11 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python-version: 3.8
-            toxenv: py38-test-pytestoldest
+            python-version: 3.9
+            toxenv: py39-test-pytestoldest
           - os: windows-latest
-            python-version: 3.8
-            toxenv: py38-test-60
+            python-version: 3.9
+            toxenv: py39-test-60
           - os: ubuntu-latest
             python-version: 3.9
             toxenv: py39-test-pytest61
@@ -48,13 +48,13 @@ jobs:
             python-version: '3.13'
             toxenv: py313-test-pytest83
           - os: macos-latest
-            python-version: '3.14-dev'
+            python-version: '3.14'
             toxenv: py314-test-pytestdev
           - os: windows-latest
-            python-version: '3.14-dev'
+            python-version: '3.14'
             toxenv: py314-test-pytestdev
           - os: ubuntu-latest
-            python-version: '3.14-dev'
+            python-version: '3.14'
             toxenv: py314-test-pytestdev
 
     steps:

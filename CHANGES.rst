@@ -2,6 +2,7 @@
 ==================
 
 - Versions of Python <3.8 are no longer supported. [#81]
+- Versions of Python <3.9 are no longer supported. [#93]
 
 
 0.4.1 (2023-09-25)
