@@ -51,6 +51,9 @@ def check_internet_off(original_function, allow_astropy_data=False,
     """
 
     def new_function(*args, **kwargs):
+        if socket.socket != socket_original:
+            raise OSError(f"Internet status is INTERNET_OFF={INTERNET_OFF}, "
+                          "but a remote function was created.")
         if isinstance(args[0], socket.socket):
             if not args[0].family in (socket.AF_INET, socket.AF_INET6):
                 # Should be fine in all but some very obscure cases
