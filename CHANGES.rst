@@ -1,4 +1,4 @@
-0.4.2 (unreleased)
+0.4.2 (2026-08-03)
 ==================
 
 - Versions of Python <3.9 are no longer supported. [#81, #93]
