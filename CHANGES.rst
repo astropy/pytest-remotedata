@@ -1,6 +1,11 @@
 0.4.3 (unreleased)
 ==================
 
+- The ``--remote-data`` option now sets its ``dest`` explicitly so that
+  it can share it with a short option defined by another plugin (e.g.,
+  ``-R`` in ``pytest-astropy``) with the development version of
+  pytest. [#102]
+
 0.4.2 (2026-08-03)
 ==================
 
