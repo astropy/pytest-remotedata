@@ -106,3 +106,22 @@ def test_block_internet_connection(pytestconfig):
 def test_block_internet_connection_internet_off():
     with pytest.raises(URLError):
         download_file(EXTERNAL_URL)
+
+
+def test_shared_option_dest(testdir):
+    # Another plugin (e.g., pytest-astropy with -R) can register an
+    # option that shares the "remote_data" dest and be loaded before
+    # this plugin.
+    testdir.makepyfile(alias_plugin="""
+        def pytest_addoption(parser):
+            parser.addoption('--online', nargs='?', const='any',
+                             default='none', dest='remote_data')
+        """)
+    testdir.makepyfile("""
+        def test_remote_data_option(pytestconfig):
+            assert pytestconfig.getoption('remote_data') == 'any'
+        """)
+
+    for option in ('--online', '--remote-data'):
+        result = testdir.runpytest_subprocess('-p', 'alias_plugin', option)
+        result.assert_outcomes(passed=1)

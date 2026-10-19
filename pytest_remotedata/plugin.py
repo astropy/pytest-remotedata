@@ -15,7 +15,7 @@ def pytest_addoption(parser):
     # defaults to '--remote-data=any'.
     parser.addoption(
         "--remote-data", nargs="?", const='any', default='none',
-        help="run tests with online data",
+        dest="remote_data", help="run tests with online data",
         choices=['astropy', 'any', 'github', 'none'])
 
     parser.addini(
