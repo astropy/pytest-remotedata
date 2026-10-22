@@ -1,5 +1,6 @@
 # Licensed under a 3-clause BSD style license - see LICENSE.rst
 import contextlib
+import functools
 import socket
 import urllib.request
 
@@ -23,6 +24,7 @@ INTERNET_OFF = False
 _orig_opener = None
 
 
+@functools.lru_cache
 def _resolve_host_ips(hostname, port=80):
     """
     Obtain all the IPs, including aliases, in a way that supports
