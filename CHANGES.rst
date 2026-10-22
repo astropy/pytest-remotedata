@@ -6,6 +6,15 @@
   ``-R`` in ``pytest-astropy``) with the development version of
   pytest. [#102]
 
+- The socket blocker no longer calls ``socket.getfqdn()`` on every
+  intercepted connection. This could take tens of seconds per call on
+  some systems (e.g. macOS CI runners). Connections to the machine's own
+  hostname or fully qualified domain name are now detected by checking
+  whether the resolved address is local. The addresses of the allowed
+  data hosts are also now only resolved once per process. [#106]
+
+- Versions of Python <3.11 and pytest <7.2 are no longer supported. [#106]
+
 0.4.2 (2026-08-03)
 ==================
 

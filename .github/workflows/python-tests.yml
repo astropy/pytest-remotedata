@@ -18,17 +18,8 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python-version: 3.9
-            toxenv: py39-test-pytestoldest
-          - os: windows-latest
-            python-version: 3.9
-            toxenv: py39-test-60
-          - os: ubuntu-latest
-            python-version: 3.9
-            toxenv: py39-test-pytest61
-          - os: ubuntu-latest
-            python-version: '3.10'
-            toxenv: py310-test-pytest71
+            python-version: '3.11'
+            toxenv: py311-test-pytestoldest
           - os: macos-latest
             python-version: '3.11'
             toxenv: py311-test-pytest72

@@ -1,6 +1,8 @@
 # Licensed under a 3-clause BSD style license - see LICENSE.rst
+import socket
 import time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+from socketserver import TCPServer
 from threading import Thread
 from urllib.request import urlopen
 
@@ -19,6 +21,12 @@ class StoppableHTTPServer(HTTPServer):
         super().__init__(*args)
         self.stop = False
 
+    def server_bind(self):
+        # Bypass HTTPServer.server_bind, which calls socket.getfqdn() and
+        # can take tens of seconds on some systems (e.g. macOS CI runners)
+        TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
+
     def handle_request(self):
         self.stop = True
         super().handle_request()
@@ -31,27 +39,29 @@ class StoppableHTTPServer(HTTPServer):
             self.handle_request()
 
 
-@pytest.mark.parametrize(('localhost'), ('localhost', '127.0.0.1'))
+@pytest.mark.parametrize(('localhost'),
+                         ('localhost', '127.0.0.1', socket.gethostname()))
 def test_localconnect_succeeds(localhost):
     """
     Ensure that connections to localhost are allowed, since these are genuinely
     not remotedata.
     """
 
-    # port "0" means find open port
-    # see http://stackoverflow.com/questions/1365265/on-localhost-how-to-pick-a-free-port-number
-    httpd = StoppableHTTPServer(('localhost', 0), SimpleHTTPRequestHandler)
+    with no_internet():
+        # port "0" means find open port
+        # see http://stackoverflow.com/questions/1365265/on-localhost-how-to-pick-a-free-port-number
+        httpd = StoppableHTTPServer(('localhost', 0), SimpleHTTPRequestHandler)
 
-    port = httpd.socket.getsockname()[1]
+        port = httpd.socket.getsockname()[1]
 
-    server = Thread(target=httpd.serve_forever)
-    server.daemon = True
+        server = Thread(target=httpd.serve_forever)
+        server.daemon = True
 
-    server.start()
-    time.sleep(0.1)
+        server.start()
+        time.sleep(0.1)
 
-    urlopen(f'http://{localhost:s}:{port:d}').close()
-    httpd.server_close()
+        urlopen(f'http://{localhost:s}:{port:d}').close()
+        httpd.server_close()
 
 
 # Used for the below test--inline functions aren't pickleable
