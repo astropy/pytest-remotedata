@@ -13,6 +13,8 @@
   whether the resolved address is local. The addresses of the allowed
   data hosts are also now only resolved once per process. [#106]
 
+- Versions of Python <3.11 are no longer supported. [#106]
+
 0.4.2 (2026-08-03)
 ==================
 
