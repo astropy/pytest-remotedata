@@ -40,20 +40,21 @@ def test_localconnect_succeeds(localhost):
     not remotedata.
     """
 
-    # port "0" means find open port
-    # see http://stackoverflow.com/questions/1365265/on-localhost-how-to-pick-a-free-port-number
-    httpd = StoppableHTTPServer(('localhost', 0), SimpleHTTPRequestHandler)
+    with no_internet():
+        # port "0" means find open port
+        # see http://stackoverflow.com/questions/1365265/on-localhost-how-to-pick-a-free-port-number
+        httpd = StoppableHTTPServer(('localhost', 0), SimpleHTTPRequestHandler)
 
-    port = httpd.socket.getsockname()[1]
+        port = httpd.socket.getsockname()[1]
 
-    server = Thread(target=httpd.serve_forever)
-    server.daemon = True
+        server = Thread(target=httpd.serve_forever)
+        server.daemon = True
 
-    server.start()
-    time.sleep(0.1)
+        server.start()
+        time.sleep(0.1)
 
-    urlopen(f'http://{localhost:s}:{port:d}').close()
-    httpd.server_close()
+        urlopen(f'http://{localhost:s}:{port:d}').close()
+        httpd.server_close()
 
 
 # Used for the below test--inline functions aren't pickleable
