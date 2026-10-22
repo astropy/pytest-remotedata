@@ -15,6 +15,9 @@
 
 - Versions of Python <3.11 and pytest <7.2 are no longer supported. [#106]
 
+- The package is now built with ``hatchling`` and all packaging metadata
+  lives in ``pyproject.toml``. [#106]
+
 - Fixed a ``TypeError`` in the socket blocker when ``socket.socket`` has
   been replaced (e.g. by a mock) in the test being run.
 
