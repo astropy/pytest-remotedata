@@ -4,16 +4,26 @@ import time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from socketserver import TCPServer
 from threading import Thread
+from unittest import mock
 from urllib.request import urlopen
 
 import pytest
-from pytest_remotedata.disable_internet import no_internet
+from pytest_remotedata.disable_internet import no_internet, socket_original
 
 
 def test_outgoing_fails():
     with pytest.raises(IOError):
         with no_internet():
             urlopen('http://www.python.org')
+
+
+def test_outgoing_fails_with_patched_socket():
+    # Regression test for the blocker raising TypeError when a test has
+    # replaced socket.socket with something that is not a type
+    sock = socket_original(socket.AF_INET, socket.SOCK_STREAM)
+    with sock, no_internet(), mock.patch('socket.socket'):
+        with pytest.raises(OSError, match='connect to the internet'):
+            sock.connect(('www.python.org', 80))
 
 
 class StoppableHTTPServer(HTTPServer):
