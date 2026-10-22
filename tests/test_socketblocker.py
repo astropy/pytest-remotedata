@@ -2,6 +2,7 @@
 import socket
 import time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+from socketserver import TCPServer
 from threading import Thread
 from urllib.request import urlopen
 
@@ -19,6 +20,12 @@ class StoppableHTTPServer(HTTPServer):
     def __init__(self, *args):
         super().__init__(*args)
         self.stop = False
+
+    def server_bind(self):
+        # Bypass HTTPServer.server_bind, which calls socket.getfqdn() and
+        # can take tens of seconds on some systems (e.g. macOS CI runners)
+        TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
 
     def handle_request(self):
         self.stop = True
