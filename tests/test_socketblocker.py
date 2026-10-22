@@ -1,4 +1,5 @@
 # Licensed under a 3-clause BSD style license - see LICENSE.rst
+import socket
 import time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
@@ -31,7 +32,8 @@ class StoppableHTTPServer(HTTPServer):
             self.handle_request()
 
 
-@pytest.mark.parametrize(('localhost'), ('localhost', '127.0.0.1'))
+@pytest.mark.parametrize(('localhost'),
+                         ('localhost', '127.0.0.1', socket.gethostname()))
 def test_localconnect_succeeds(localhost):
     """
     Ensure that connections to localhost are allowed, since these are genuinely

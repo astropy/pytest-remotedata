@@ -37,6 +37,27 @@ def _resolve_host_ips(hostname, port=80):
     return ips
 
 
+def _is_local_address(addrinfos):
+    """
+    Return `True` if any of the addresses in ``addrinfos`` (as returned by
+    `socket.getaddrinfo`) is owned by this machine, e.g. because the host
+    is the machine's own hostname or fully qualified domain name.
+
+    This is determined by trying to bind to each address, which only
+    succeeds for local interfaces. Unlike `socket.getfqdn`, this does not
+    require a reverse DNS lookup, which can take tens of seconds on some
+    systems (e.g. macOS CI runners).
+    """
+    for family, _, _, _, sockaddr in addrinfos:
+        try:
+            with socket_original(family, socket.SOCK_STREAM) as sock:
+                socket_bind(sock, (sockaddr[0], 0) + sockaddr[2:])
+            return True
+        except OSError:
+            continue
+    return False
+
+
 # ::1 is apparently another valid name for localhost?
 # it is returned by getaddrinfo when that function is given localhost
 
@@ -81,23 +102,28 @@ def check_internet_off(original_function, allow_astropy_data=False,
             for valid_host in GITHUB_HOSTS:
                 valid_hosts = valid_hosts.union(_resolve_host_ips(valid_host))
 
-        hostname = socket.gethostname()
-        fqdn = socket.getfqdn()
-
-        if host in (hostname, fqdn):
-            host = 'localhost'
-            host_ips = {host}
-            new_addr = (host, args[addr_arg][1])
-            args = args[:addr_arg] + (new_addr,) + args[addr_arg + 1:]
-        else:
-            host_ips = _resolve_host_ips(host)
-
-        if len(host_ips & valid_hosts) > 0:  # Any overlap is acceptable
+        if host in valid_hosts:
             return original_function(*args, **kwargs)
-        else:
-            raise OSError("An attempt was made to connect to the internet "
-                          "by a test that was not marked `remote_data`. The "
-                          "requested host was: {}".format(host))
+
+        port = args[addr_arg][1]
+
+        if host == socket.gethostname():
+            new_addr = ('localhost', port)
+            args = args[:addr_arg] + (new_addr,) + args[addr_arg + 1:]
+            return original_function(*args, **kwargs)
+
+        try:
+            addrinfos = socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)
+        except socket.gaierror:
+            addrinfos = []
+
+        host_ips = {info[-1][0] for info in addrinfos}
+        if host_ips & valid_hosts or _is_local_address(addrinfos):
+            return original_function(*args, **kwargs)
+
+        raise OSError("An attempt was made to connect to the internet "
+                      "by a test that was not marked `remote_data`. The "
+                      "requested host was: {}".format(host))
     return new_function
 
 
