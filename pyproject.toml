@@ -1,5 +1,58 @@
 [build-system]
-requires = ["setuptools>=77.0.1",
-            "setuptools_scm",
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytest-remotedata"
+description = "Pytest plugin for controlling remote data access."
+readme = "README.rst"
+license = "BSD-3-Clause"
+license-files = ["LICENSE.rst"]
+authors = [
+    { name = "The Astropy Developers", email = "astropy.team@gmail.com" },
 ]
-build-backend = 'setuptools.build_meta'
+keywords = ["remote", "data", "pytest", "py.test"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "pytest>=7.2",
+    "packaging",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/astropy/pytest-remotedata"
+
+[project.entry-points.pytest11]
+pytest_remotedata = "pytest_remotedata.plugin"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "pytest_remotedata/version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pytest_remotedata"]
+
+[tool.pytest.ini_options]
+minversion = "7.2"
+testpaths = ["tests"]
+addopts = "--durations=10"
+remote_data_strict = true
+filterwarnings = ["error"]
