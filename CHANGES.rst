@@ -1,4 +1,4 @@
-0.4.3 (unreleased)
+0.4.3 (2026-10-27)
 ==================
 
 - The ``--remote-data`` option now sets its ``dest`` explicitly so that
