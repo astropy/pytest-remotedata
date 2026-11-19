@@ -8,7 +8,7 @@ PYFILE_CONTENTS = """
     from urllib.request import urlopen
 
     def test_config_setting(pytestconfig):
-        assert pytestconfig.getini('remote_data_strict') == {}
+        assert pytestconfig.getini('strict_remote_data') == {}
 
     {}
     def test_internet_access():
@@ -28,7 +28,7 @@ def _write_config_file(testdir, entry):
 
 
 def test_local_config(pytestconfig):
-    assert pytestconfig.getini('remote_data_strict') is True
+    assert pytestconfig.getini('strict_remote_data') is True
 
 
 def test_default_behavior(testdir):
@@ -40,8 +40,9 @@ def test_default_behavior(testdir):
     result.assert_outcomes(passed=2)
 
 
-def test_strict_behavior(testdir):
-    _write_config_file(testdir, 'remote_data_strict = true')
+@pytest.mark.parametrize("option_name", ["strict_remote_data", "remote_data_strict"])
+def test_strict_behavior(testdir, option_name: str):
+    _write_config_file(testdir, f"{option_name} = true")
 
     testdir.makepyfile(PYFILE_CONTENTS.format('True', ''))
 
@@ -50,8 +51,9 @@ def test_strict_behavior(testdir):
 
 
 @pytest.mark.parametrize('source', ['none', 'any'])
-def test_strict_with_decorator(testdir, source):
-    _write_config_file(testdir, 'remote_data_strict = true')
+@pytest.mark.parametrize("option_name", ["strict_remote_data", "remote_data_strict"])
+def test_strict_with_decorator(testdir, source, option_name: str):
+    _write_config_file(testdir, f"{option_name} = true")
 
     decorator = '@pytest.mark.remote_data'
     testdir.makepyfile(PYFILE_CONTENTS.format('True', decorator))

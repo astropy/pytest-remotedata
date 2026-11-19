@@ -1,7 +1,11 @@
-0.4.4 (unreleased)
+0.5.0 (unreleased)
 ==================
 
 - drop unused runtime dependency on ``packaging`` [#109]
+- drop support for pytest 7.x and 8.x .
+  Version 9 or newer is now required [#110]
+- rename ``remote_data_strict`` as ``strict_remote_data``.
+  The old name is preserved as an alias for backward compatibility. [#110]
 
 0.4.3 (2026-10-27)
 ==================

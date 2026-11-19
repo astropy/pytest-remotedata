@@ -84,9 +84,10 @@ if ``--remote-data=none`` is provided, all tests that are marked with
 
 Sometimes it is useful to check that certain tests do not unexpectedly access
 the internet. Strict remote data access checking can be enabled by setting
-``remote_data_strict = true`` in the tested package's ``setup.cfg`` file. If
-this option is enabled, any test that attempts to access the network but is not
-marked with ``@pytest.mark.remote_data`` will fail.
+``strict_remote_data = true`` to the ``[tool.pytest]`` table of
+the tested package's ``pyproject.toml``. If this option is enabled, any test
+that attempts to access the network but is not marked with
+``@pytest.mark.remote_data`` will fail.
 
 
 Providing either the ``--remote-data`` option, or ``--remote-data=any`` to the

@@ -8,7 +8,7 @@ import pytest
 from .disable_internet import turn_off_internet, turn_on_internet
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
 
     # The following means that if --remote-data is not specified, the default
     # is 'none', but if it is specified without arguments (--remote-data), it
@@ -19,10 +19,16 @@ def pytest_addoption(parser):
         choices=['astropy', 'any', 'github', 'none'])
 
     parser.addini(
-        'remote_data_strict',
-        "If 'True', tests will fail if they attempt to access the internet "
-        "but are not explicitly marked with 'remote_data'",
-        type="bool", default=False)
+        "strict_remote_data",
+        aliases=("remote_data_strict",),
+        type=bool,
+        default=False,
+        help=(
+            "If 'True', tests will fail if they attempt to access the internet "
+            "but are not explicitly marked with 'remote_data'"
+        ),
+    )
+        
 
 
 def pytest_configure(config):
@@ -32,7 +38,7 @@ def pytest_configure(config):
         'internet_off: Apply to tests that should only run when '
         'network access is deactivated')
 
-    strict_check = bool(config.getini('remote_data_strict'))
+    strict_check = bool(config.getini('strict_remote_data'))
 
     remote_data = config.getoption('remote_data')
 

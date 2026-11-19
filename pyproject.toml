@@ -30,7 +30,7 @@ classifiers = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "pytest>=7.2",
+    "pytest>=9.0.0",
 ]
 dynamic = ["version"]
 
@@ -49,9 +49,9 @@ version-file = "pytest_remotedata/version.py"
 [tool.hatch.build.targets.wheel]
 packages = ["pytest_remotedata"]
 
-[tool.pytest.ini_options]
-minversion = "7.2"
+[tool.pytest]
+minversion = "9.0"
 testpaths = ["tests"]
-addopts = "--durations=10"
-remote_data_strict = true
+addopts = ["--durations=10"]
+strict_remote_data = true
 filterwarnings = ["error"]
