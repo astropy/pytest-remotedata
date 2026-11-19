@@ -1,6 +1,8 @@
 0.4.4 (unreleased)
 ==================
 
+- drop unused runtime dependency on ``packaging`` [#109]
+
 0.4.3 (2026-10-27)
 ==================
 
