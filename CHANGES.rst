@@ -9,6 +9,10 @@
   [#111]
 - Support integration with pytest 9's strict mode: ``remote_data_strict``
   now defaults to the global ``strict`` setting if not explicitly defined [#111]
+- command line options from this plugin are now diplayed in a dedicated group
+  under ``pytest-remote-data`` when invoking ``pytest --help`` [#112]
+- Add a ``--strict-remote-data`` command line option that overrides static
+  configuration. This option is only available for pytest 9 and newer. [#112]
 
 0.4.3 (2026-10-27)
 ==================

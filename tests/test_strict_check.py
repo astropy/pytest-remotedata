@@ -143,3 +143,21 @@ def test_strict_with_decorator(
     clarg = '--remote-data=' + source
     result = testdir.runpytest_subprocess(clarg)
     result.assert_outcomes(**expected_outcomes)
+
+
+@pytest.mark.skipif(
+    pytest.version_tuple < (9,),
+    reason="CLI option is only supported for pytest 9 and newer",
+)
+def test_strict_from_cli(testdir) -> None:
+    testdir.makepyfile(
+        """
+        from urllib.request import urlopen
+
+        def test_unmarked_network_access():
+            urlopen('http://astropy.org')
+        """
+    )
+
+    result = testdir.runpytest_subprocess('--strict-remote-data')
+    assert result.ret != 0

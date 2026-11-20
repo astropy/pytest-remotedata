@@ -9,11 +9,12 @@ from .disable_internet import turn_off_internet, turn_on_internet
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
+    group = parser.getgroup('pytest-remote-data')
 
     # The following means that if --remote-data is not specified, the default
     # is 'none', but if it is specified without arguments (--remote-data), it
     # defaults to '--remote-data=any'.
-    parser.addoption(
+    group.addoption(
         "--remote-data", nargs="?", const='any', default='none',
         dest="remote_data", help="run tests with online data",
         choices=['astropy', 'any', 'github', 'none'])
@@ -41,6 +42,18 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         ),
         **version_spec_kwargs,
     )
+
+    if pytest.version_tuple >= (9, 0, 0):
+        from _pytest.config.argparsing import OverrideIniAction
+
+        group.addoption(
+            "--strict-remote-data",
+            action=OverrideIniAction,
+            ini_option="strict_remote_data",
+            ini_value="true",
+            help="Enables the strict_remote_data option",
+        )
+
 
 def pytest_configure(config):
     config.getini('markers').append(
