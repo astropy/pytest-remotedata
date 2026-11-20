@@ -1,7 +1,14 @@
-0.4.4 (unreleased)
+0.5.0 (unreleased)
 ==================
 
 - drop unused runtime dependency on ``packaging`` [#109]
+- Add ``strict_remote_data`` as an alias to ``remote_data_strict``.
+  This alias is only available for pytest 9 and newer. Users wishing to preserve
+  compatibility with older versions are advised to keep using the old name.
+  There are no plans for deprecating or retiring the old name in a future version.
+  [#111]
+- Support integration with pytest 9's strict mode: ``remote_data_strict``
+  now defaults to the global ``strict`` setting if not explicitly defined [#111]
 
 0.4.3 (2026-10-27)
 ==================
