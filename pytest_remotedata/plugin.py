@@ -8,7 +8,7 @@ import pytest
 from .disable_internet import turn_off_internet, turn_on_internet
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
 
     # The following means that if --remote-data is not specified, the default
     # is 'none', but if it is specified without arguments (--remote-data), it
@@ -18,12 +18,29 @@ def pytest_addoption(parser):
         dest="remote_data", help="run tests with online data",
         choices=['astropy', 'any', 'github', 'none'])
 
-    parser.addini(
-        'remote_data_strict',
-        "If 'True', tests will fail if they attempt to access the internet "
-        "but are not explicitly marked with 'remote_data'",
-        type="bool", default=False)
+    if pytest.version_tuple >= (9, 0, 0):
+        # 'strict_'-prefixed option names are prefered over their
+        # historical '_strict'-suffixed counterparts since pytest 9,
+        # so this name should really be the default instead of an alias,
+        # but defining aliases itself requires pytest 9, so to preserve
+        # backward compatibility, this relationship is reverted and the new
+        # prefered name is only available for pytest 9 and newer
+        version_spec_kwargs = {'aliases': ("strict_remote_data",)}
+    else:
+        version_spec_kwargs = {}
 
+    parser.addini(
+        "remote_data_strict",
+        type="bool",
+        # None => fallback to `strict` in pytest 9
+        # rely on the falsiness of None otherwise
+        default=None,
+        help=(
+            "If 'True', tests will fail if they attempt to access the internet "
+            "but are not explicitly marked with 'remote_data'"
+        ),
+        **version_spec_kwargs,
+    )
 
 def pytest_configure(config):
     config.getini('markers').append(
@@ -32,20 +49,26 @@ def pytest_configure(config):
         'internet_off: Apply to tests that should only run when '
         'network access is deactivated')
 
-    strict_check = bool(config.getini('remote_data_strict'))
+    strict_check = config.getini('remote_data_strict')
+    if strict_check is None and pytest.version_tuple >= (9, 0, 0):
+        strict_check = config.getini('strict')
 
-    remote_data = config.getoption('remote_data')
+    if not strict_check:
+        return
 
     # Monkeypatch to deny access to remote resources unless explicitly told
     # otherwise
-    if strict_check:
-        if remote_data == 'github':  # GitHub only
-            turn_off_internet(
-                verbose=config.option.verbose, allow_github_data=True)
-        elif remote_data != 'any':  # Astropy + GitHub or nothing
+    match remote_data := config.getoption('remote_data'):
+        case 'any':
+            pass
+        case 'github' | 'astropy' | 'none':
             turn_off_internet(
                 verbose=config.option.verbose,
-                allow_astropy_data=(remote_data == 'astropy'))
+                allow_github_data=(remote_data == 'github'),
+                allow_astropy_data=(remote_data == 'astropy'),
+            )
+        case _ as _unreachable:
+            raise AssertionError(f'Unexpected value for {remote_data=!r}')
 
 
 def pytest_unconfigure():
